@@ -1,14 +1,15 @@
 package post
 
 import (
-	"github.com/povsister/mys-mirai/mys/api/request/meta"
+	"strconv"
+
+	"github.com/povsister/mys-mirai/mys/api/meta"
 	"github.com/povsister/mys-mirai/mys/api/response/post"
 	"github.com/povsister/mys-mirai/mys/rest"
-	"strconv"
 )
 
 type PostInterface interface {
-	Get(pid int, opt meta.GetPostOptions) (*post.FullPostInfo, error)
+	Get(pid int, opt meta.GetPostOptions) (*post.FullPostInfoResponse, error)
 }
 
 type postImpl struct {
@@ -20,8 +21,8 @@ func newPostImpl(c rest.Interface, gid rest.GameType) *postImpl {
 	return &postImpl{client: c, gid: gid}
 }
 
-func (c *postImpl) Get(pid int, opt meta.GetPostOptions) (ret *post.FullPostInfo, err error) {
-	ret = &post.FullPostInfo{}
+func (c *postImpl) Get(pid int, opt meta.GetPostOptions) (ret *post.FullPostInfoResponse, err error) {
+	ret = &post.FullPostInfoResponse{}
 	err = c.client.Get().
 		Use(opt).
 		GID(c.gid).

@@ -1,14 +1,15 @@
 package user
 
 import (
-	"github.com/povsister/mys-mirai/mys/api/request/meta"
+	"strconv"
+
+	"github.com/povsister/mys-mirai/mys/api/meta"
 	"github.com/povsister/mys-mirai/mys/api/response/user"
 	"github.com/povsister/mys-mirai/mys/rest"
-	"strconv"
 )
 
 type UserInfoInterface interface {
-	Get(uid int, opt meta.UserInfoGetOptions) (*user.FullUserInfo, error)
+	Get(uid int, opt meta.UserInfoGetOptions) (*user.FullUserInfoResponse, error)
 }
 
 type userInfoManager struct {
@@ -20,8 +21,8 @@ func newUserInfoManager(c rest.Interface, gid rest.GameType) *userInfoManager {
 	return &userInfoManager{client: c, gid: gid}
 }
 
-func (c *userInfoManager) Get(uid int, opt meta.UserInfoGetOptions) (ret *user.FullUserInfo, err error) {
-	ret = &user.FullUserInfo{}
+func (c *userInfoManager) Get(uid int, opt meta.UserInfoGetOptions) (ret *user.FullUserInfoResponse, err error) {
+	ret = &user.FullUserInfoResponse{}
 	req := c.client.Get().
 		Use(opt).
 		GID(c.gid).
